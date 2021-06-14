@@ -1,10 +1,18 @@
 import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
+import { Login } from "./components/login";
 
 function App() {
   return (
     <div className="App">
-      <h2>Let's build linkedin clone</h2>
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            <Login />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
