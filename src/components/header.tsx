@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import styled from "styled-components";
 
 export const Header = (props: any) => {
@@ -17,6 +18,67 @@ export const Header = (props: any) => {
             <img src="/images/search-icon.svg" alt="" />
           </SearchIcon>
         </Search>
+        <Nav>
+          <NavListWrap>
+            <NavList className="active">
+              <a>
+                <img src="/images/nav-home.svg" alt="" />
+                <span>Home</span>
+              </a>
+            </NavList>
+
+            <NavList>
+              <a>
+                <img src="/images/nav-network.svg" alt="" />
+                <span>My Network</span>
+              </a>
+            </NavList>
+
+            <NavList>
+              <a>
+                <img src="/images/nav-jobs.svg" alt="" />
+                <span>Job</span>
+              </a>
+            </NavList>
+
+            <NavList>
+              <a>
+                <img src="/images/nav-messaging.svg" alt="" />
+                <span>Messaging</span>
+              </a>
+            </NavList>
+
+            <NavList>
+              <a>
+                <img src="/images/nav-notifications.svg" alt="" />
+                <span>Notifications</span>
+              </a>
+            </NavList>
+
+            <User>
+              <a>
+                <img src="/images/user.svg" alt="" />
+                <span>
+                  Me
+                  <img src="/images/down-icon.svg" alt="" />
+                </span>
+              </a>
+              <SignOut>
+                <a>Sign Out</a>
+              </SignOut>
+            </User>
+
+            <Work>
+              <a>
+                <img src="/images/nav-work.svg" alt="" />
+                <span>
+                  Work
+                  <img src="/images/down-icon.svg" alt="" />
+                </span>
+              </a>
+            </Work>
+          </NavListWrap>
+        </Nav>
       </Content>
     </Container>
   );
@@ -83,4 +145,113 @@ const SearchIcon = styled.div`
   z-index: 1;
   pointer-events: none;
   transition: background-color 0.15s;
+`;
+
+const Nav = styled.nav`
+  margin-left: auto;
+  display: block;
+  @media (max-width: 768px) {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background: white;
+    width: 100%;
+  }
+`;
+
+const NavListWrap = styled.ul`
+  display: flex;
+  flex-wrap: nowrap;
+  list-style-type: none;
+  .active {
+    span:after {
+      width: 100%;
+      border-bottom: 2px solid var(--white, #fff);
+      border-color: rgba(0, 0, 0, 0.9);
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      content: "";
+      transform: scaleX(1);
+      transition: transform 0.2s ease-in-out;
+    }
+  }
+`;
+
+const NavList = styled.li`
+  display: flex;
+  align-items: center;
+  a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background: transparent;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    min-height: 42px;
+    min-width: 80px;
+    text-decoration: none;
+    span {
+      display: flex;
+      align-items: center;
+      color: rgba(0, 0, 0, 0.6);
+    }
+    @media (max-width: 768px) {
+      min-width: 70px;
+    }
+  }
+  &:hover,
+  &:active {
+    a {
+      span {
+        color: rgba(0, 0, 0, 0.9);
+      }
+    }
+  }
+`;
+
+const SignOut = styled.div`
+  width: 100px;
+  height: 40px;
+  border-radius: 0 0 5px 5px;
+  display: none;
+  position: absolute;
+  top: 45px;
+  font-size: 16px;
+  text-align: center;
+  background: white;
+  transition-duration: 167ms;
+`;
+
+const User = styled(NavList)`
+  a > svg {
+    width: 24px;
+    border-radius: 50%;
+  }
+
+  a > img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+  }
+
+  &:hover {
+    ${SignOut} {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+`;
+
+const Work = styled(User)`
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
 `;
