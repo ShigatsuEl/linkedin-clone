@@ -47,6 +47,48 @@ export const Main = (props: any) => {
               <img src="/images/ellipsis.svg" alt="" />
             </button>
           </SharedActor>
+          <Description>Description</Description>
+          <SharedImg>
+            <a>
+              <img src="/images/user.svg" alt="" />
+            </a>
+          </SharedImg>
+          <SocialCounts>
+            <li>
+              <button>
+                <img
+                  src="https://static-exp1.licdn.com/sc/h/d310t2g24pvdy4pt1jkedo4yb"
+                  alt=""
+                />
+                <img
+                  src="https://static-exp1.licdn.com/sc/h/5thsbmikm6a8uov24ygwd914f"
+                  alt=""
+                />
+                <span>75</span>
+              </button>
+            </li>
+            <li>
+              <a>2 comments</a>
+            </li>
+          </SocialCounts>
+          <SocialActions>
+            <button>
+              <img src="/images/like-icon.svg" alt="" />
+              <span>Like</span>
+            </button>
+            <button>
+              <img src="/images/comments-icon.svg" alt="" />
+              <span>Comments</span>
+            </button>
+            <button>
+              <img src="/images/share-icon.svg" alt="" />
+              <span>Share</span>
+            </button>
+            <button>
+              <img src="/images/send-icon.svg" alt="" />
+              <span>Send</span>
+            </button>
+          </SocialActions>
         </Article>
       </div>
     </Conatainer>
@@ -179,5 +221,65 @@ const SharedActor = styled.div`
     right: 12px;
     background: transparent;
     outline: none;
+  }
+`;
+
+const Description = styled.div`
+  padding: 0 16px;
+  overflow: hidden;
+  color: rgba(0, 0, 0, 0.9);
+  font-size: 14px;
+  text-align: left;
+`;
+
+const SharedImg = styled.div`
+  width: 100%;
+  margin-top: 8px;
+  display: block;
+  position: relative;
+  background-color: #f9fafb;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+`;
+
+const SocialCounts = styled.ul`
+  margin: 0 16px;
+  padding: 8px 0;
+  border-bottom: 1px solid #e9e5df;
+  display: flex;
+  align-items: flex-start;
+  overflow: auto;
+  line-height: 1.3;
+  list-style: none;
+  li {
+    margin-right: 5px;
+    font-size: 12px;
+    button {
+      display: flex;
+    }
+  }
+`;
+
+const SocialActions = styled.div`
+  margin: 0;
+  min-height: 40px;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  button {
+    padding: 8px;
+    display: inline-flex;
+    align-items: center;
+    color: #0a66c2;
+
+    @media (max-width: 768px) {
+      span {
+        margin-left: 8px;
+      }
+    }
   }
 `;
