@@ -1,7 +1,23 @@
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
+import { AnyAction, Dispatch } from "redux";
 import styled from "styled-components";
+import { auth, provider } from "../firebase";
+import { IUserState } from "../reducers/userReducer";
 
-const Login = (props: any) => {
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+type IProps = PropsFromRedux;
+
+export const signInAPI = () => {
+  auth
+    .signInWithPopup(provider)
+    .then((payload) => {
+      console.log(payload);
+    })
+    .catch((error) => alert(error.message));
+};
+
+const Login = (props: IProps) => {
   return (
     <Container>
       <Nav>
@@ -19,7 +35,7 @@ const Login = (props: any) => {
           <img src="/images/login-hero.svg" alt="" />
         </Hero>
         <Form>
-          <Google>
+          <Google onClick={() => signInAPI()}>
             <img src="/images/google.svg" alt="" />
             Sign in with Google
           </Google>
@@ -165,10 +181,12 @@ const Google = styled.button`
   }
 `;
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: IUserState) => {
   return {};
 };
 
-const mapDispatchToProps = (dispatch: any) => ({});
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export default connector(Login);
