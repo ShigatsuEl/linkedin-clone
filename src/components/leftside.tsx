@@ -1,0 +1,197 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import styled from "styled-components";
+
+export const Leftside = (props: any) => {
+  return (
+    <Conatainer>
+      <ArtCard>
+        <UserInfo>
+          <CardBackground />
+          <a>
+            <Photo />
+            <Link>Welcome, there!</Link>
+          </a>
+          <a>
+            <AddPhotoText>Add a photo</AddPhotoText>
+          </a>
+        </UserInfo>
+        <Widget>
+          <a>
+            <div>
+              <span>Connections</span>
+              <span>Grow your networks</span>
+            </div>
+            <img src="/images/widget-icon.svg" alt="" />
+          </a>
+        </Widget>
+        <Item>
+          <span>
+            <img src="/images/item-icon.svg" alt="" />
+            My Items
+          </span>
+        </Item>
+      </ArtCard>
+      <CommunityCard>
+        <a>
+          <span>Groups</span>
+        </a>
+        <a>
+          <span>
+            Events
+            <img src="/images/plus-icon.svg" alt="" />
+          </span>
+        </a>
+        <a>
+          <span>Follow Hashtags</span>
+        </a>
+        <a>
+          <span>Discover more</span>
+        </a>
+      </CommunityCard>
+    </Conatainer>
+  );
+};
+
+const Conatainer = styled.div`
+  grid-area: leftside;
+`;
+
+const ArtCard = styled.div`
+  margin-bottom: 8px;
+  border: none;
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  background-color: #fff;
+  transition: box-shadow 83ms;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%);
+`;
+
+const UserInfo = styled.div`
+  padding: 12px 12px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  word-wrap: break-word;
+  word-break: break-word;
+`;
+
+const CardBackground = styled.div`
+  height: 54px;
+  margin: -12px -12px 0;
+  background: url("/images/card-bg.svg");
+  background-position: center;
+  background-size: 462px;
+`;
+
+const Photo = styled.div`
+  width: 72px;
+  height: 72px;
+  border: 2px solid white;
+  margin: -38px auto 12px;
+  border-radius: 50%;
+  box-shadow: none;
+  background-image: url("/images/photo.svg");
+  box-sizing: border-box;
+  background-clip: content-box;
+  background-color: white;
+  background-position: center;
+  background-size: 60%;
+  background-repeat: no-repeat;
+`;
+
+const Link = styled.div`
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.9);
+`;
+
+const AddPhotoText = styled.div`
+  color: #0a66c2;
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.33;
+  font-weight: 400;
+`;
+
+const Widget = styled.div`
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  & > a {
+    padding: 4px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.08);
+    }
+    div {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      span {
+        font-size: 12px;
+        line-height: 1.333;
+        &:first-child {
+          color: rgba(0, 0, 0, 0.6);
+        }
+        &:nth-child(2) {
+          color: rgba(0, 0, 0, 1);
+        }
+      }
+    }
+  }
+  svg {
+    color: rgba(0, 0, 0, 1);
+  }
+`;
+
+const Item = styled.a`
+  padding: 12px;
+  border-color: rgba(0, 0, 0, 0.8);
+  display: block;
+  font-size: 12px;
+  text-align: left;
+  span {
+    display: flex;
+    align-items: center;
+    color: rgba(0, 0, 0, 1);
+    svg {
+      color: rgba(0, 0, 0, 0.6);
+    }
+  }
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+  }
+`;
+
+const CommunityCard = styled(ArtCard)`
+  padding: 8px 0 0;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  a {
+    padding: 4px 12px 4px 12px;
+    color: black;
+    font-size: 12px;
+    &:hover {
+      color: #0a66c2;
+    }
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    &:last-child {
+      padding: 12px;
+      border-top: 1px solid #d6cec2;
+      color: rgba(0, 0, 0, 0.6);
+      text-decoration: none;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.08);
+      }
+    }
+  }
+`;
