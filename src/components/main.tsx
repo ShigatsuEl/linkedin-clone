@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import styled from "styled-components";
+import { PostModal } from "./post-modal";
 
 export const Main = (props: any) => {
   return (
@@ -91,6 +92,7 @@ export const Main = (props: any) => {
           </SocialActions>
         </Article>
       </div>
+      <PostModal />
     </Conatainer>
   );
 };
