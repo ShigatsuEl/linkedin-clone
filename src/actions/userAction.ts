@@ -17,6 +17,17 @@ export const signInAPI = () => {
   };
 };
 
+export const signOutAPI = () => {
+  return (dispatch: any) => {
+    auth
+      .signOut()
+      .then(() => {
+        dispatch(setUser(null));
+      })
+      .catch((error) => alert(error.message));
+  };
+};
+
 export const getUserAuth = () => {
   return (dispatch: any) => {
     auth.onAuthStateChanged(async (user) => {

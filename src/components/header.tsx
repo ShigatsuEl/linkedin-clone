@@ -1,9 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import styled from "styled-components";
+import { signOutAPI } from "../actions/userAction";
 import { IUserState } from "../reducers/userReducer";
 
-const Header = (props: any) => {
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+type IProps = PropsFromRedux;
+
+const Header = (props: IProps) => {
   return (
     <Container>
       <Content>
@@ -69,7 +74,7 @@ const Header = (props: any) => {
                   <img src="/images/down-icon.svg" alt="" />
                 </span>
               </a>
-              <SignOut>
+              <SignOut onClick={() => props.signOut()}>
                 <a>Sign Out</a>
               </SignOut>
             </User>
@@ -268,7 +273,9 @@ const mapStateToProps = (state: { userState: IUserState }) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => ({});
+const mapDispatchToProps = (dispatch: any) => ({
+  signOut: () => dispatch(signOutAPI()),
+});
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 

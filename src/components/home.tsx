@@ -1,12 +1,20 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { connect, ConnectedProps } from "react-redux";
+import { Redirect } from "react-router-dom";
 import styled from "styled-components";
+import { IUserState } from "../reducers/userReducer";
 import { Leftside } from "./leftside";
 import { Main } from "./main";
 import { Rightside } from "./rightside";
 
-export const Home = (props: any) => {
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+type IProps = PropsFromRedux;
+
+const Home = (props: IProps) => {
   return (
     <Container>
+      {!props.user && <Redirect to="/" />}
       <Section>
         <h5>
           <a>Hiring n a hurry? - </a>
@@ -70,3 +78,15 @@ const Layout = styled.div`
     padding: 0 5px;
   }
 `;
+
+const mapStateToProps = (state: { userState: IUserState }) => {
+  return {
+    user: state.userState.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => ({});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export default connector(Home);

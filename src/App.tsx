@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import Header from "./components/header";
 import Login from "./components/login";
-import { Home } from "./components/home";
+import Home from "./components/home";
 import { useEffect } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { getUserAuth } from "./actions/userAction";
