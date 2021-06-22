@@ -1,7 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { connect, ConnectedProps } from "react-redux";
 import styled from "styled-components";
+import { IUserState } from "../reducers/userReducer";
 
-export const Leftside = (props: any) => {
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+type IProps = PropsFromRedux;
+
+const Leftside = (props: IProps) => {
   return (
     <Conatainer>
       <ArtCard>
@@ -9,7 +15,9 @@ export const Leftside = (props: any) => {
           <CardBackground />
           <a>
             <Photo />
-            <Link>Welcome, there!</Link>
+            <Link>
+              Welcome, {props.user ? props.user.displayName : "there"}!
+            </Link>
           </a>
           <a>
             <AddPhotoText>Add a photo</AddPhotoText>
@@ -195,3 +203,15 @@ const CommunityCard = styled(ArtCard)`
     }
   }
 `;
+
+const mapStateToProps = (state: { userState: IUserState }) => {
+  return {
+    user: state.userState.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => ({});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export default connector(Leftside);
