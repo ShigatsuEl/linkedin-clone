@@ -1,7 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { connect } from "react-redux";
 import styled from "styled-components";
+import { IUserState } from "../reducers/userReducer";
 
-export const Header = (props: any) => {
+const Header = (props: any) => {
   return (
     <Container>
       <Content>
@@ -57,7 +59,11 @@ export const Header = (props: any) => {
 
             <User>
               <a>
-                <img src="/images/user.svg" alt="" />
+                {props.user && props.user.photoURL ? (
+                  <img src={props.user.photoURL} alt="" />
+                ) : (
+                  <img src="/images/user.svg" alt="" />
+                )}
                 <span>
                   Me
                   <img src="/images/down-icon.svg" alt="" />
@@ -255,3 +261,15 @@ const User = styled(NavList)`
 const Work = styled(User)`
   border-left: 1px solid rgba(0, 0, 0, 0.08);
 `;
+
+const mapStateToProps = (state: { userState: IUserState }) => {
+  return {
+    user: state.userState.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => ({});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export default connector(Header);

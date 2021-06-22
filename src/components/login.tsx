@@ -9,7 +9,6 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type IProps = PropsFromRedux;
 
 const Login = (props: IProps) => {
-  console.log(props.user);
   return (
     <Container>
       {props.user && <Redirect to="/home" />}
