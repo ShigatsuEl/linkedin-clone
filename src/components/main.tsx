@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
 import styled from "styled-components";
-import { PostModal } from "./post-modal";
+import PostModal from "./post-modal";
 
 export const Main = (props: any) => {
   const [showModal, setShowModal] = useState("close");
