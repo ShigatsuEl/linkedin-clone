@@ -1,9 +1,17 @@
+import firebase from "firebase/app";
 import React from "react";
 import { useState } from "react";
 import ReactPlayer from "react-player";
 import { connect, ConnectedProps } from "react-redux";
 import styled from "styled-components";
+import { postArticleAPI } from "../actions/articleAction";
 import { IUserState } from "../reducers/userReducer";
+
+enum AreaChoice {
+  none = "",
+  image = "image",
+  media = "media",
+}
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
@@ -12,16 +20,19 @@ interface IPostModalProps extends PropsFromRedux {
   handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-enum AreaChoice {
-  none = "",
-  image = "image",
-  media = "media",
+interface IPayload {
+  image: File | undefined;
+  video: string;
+  user: firebase.User | null;
+  description: string;
+  timestamp: firebase.firestore.Timestamp;
 }
 
 const PostModal: React.FC<IPostModalProps> = ({
   showModal,
   handleClick,
   user,
+  postArticleProp,
 }) => {
   const [editorText, setEditorText] = useState("");
   const [shareImage, setShareImage] = useState<File | undefined>(undefined);
@@ -37,6 +48,24 @@ const PostModal: React.FC<IPostModalProps> = ({
     }
 
     setShareImage(image);
+  };
+
+  const postArticle = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (e.target !== e.currentTarget) {
+      return;
+    }
+
+    const payload: IPayload = {
+      image: shareImage,
+      video: videoLink,
+      user,
+      description: editorText,
+      timestamp: firebase.firestore.Timestamp.now(),
+    };
+
+    postArticleProp(payload);
+    reset(e);
   };
 
   const reset = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -131,7 +160,10 @@ const PostModal: React.FC<IPostModalProps> = ({
                 </AssetButton>
               </ShareComment>
 
-              <PostButton disabled={!editorText ? true : false}>
+              <PostButton
+                disabled={!editorText ? true : false}
+                onClick={postArticle}
+              >
                 Post
               </PostButton>
             </ShareCreation>
@@ -292,7 +324,9 @@ const mapStateToProps = (state: { userState: IUserState }) => ({
   user: state.userState.user,
 });
 
-const mapDispatchToProps = (dispatch: any) => ({});
+const mapDispatchToProps = (dispatch: any) => ({
+  postArticleProp: (payload: IPayload) => dispatch(postArticleAPI(payload)),
+});
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
