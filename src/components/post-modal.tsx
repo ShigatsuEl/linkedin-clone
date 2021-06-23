@@ -1,43 +1,71 @@
 import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
-export const PostModal = () => {
+interface IPostModalProps {
+  showModal: string;
+  handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+export const PostModal: React.FC<IPostModalProps> = ({
+  showModal,
+  handleClick,
+}) => {
+  const [editorText, setEditorText] = useState("");
+
+  const reset = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setEditorText("");
+    handleClick(e);
+  };
+
   return (
-    <Container>
-      <Content>
-        <Header>
-          <h2>Create a post</h2>
-          <button>
-            <img src="/images/close-icon.svg" alt="" />
-          </button>
-        </Header>
-        <SharedContent>
-          <UserInfo>
-            <img src="/images/user.svg" alt="" />
-            <span>Name</span>
-          </UserInfo>
-        </SharedContent>
-        <ShareCreation>
-          <AttachAssets>
-            <AssetButton>
-              <img src="/images/share-image.svg" alt="" />
-            </AssetButton>
-            <AssetButton>
-              <img src="/images/share-video.svg" alt="" />
-            </AssetButton>
-          </AttachAssets>
+    <React.Fragment>
+      {showModal === "open" && (
+        <Container>
+          <Content>
+            <Header>
+              <h2>Create a post</h2>
+              <button onClick={reset}>
+                <img src="/images/close-icon.svg" alt="" />
+              </button>
+            </Header>
+            <SharedContent>
+              <UserInfo>
+                <img src="/images/user.svg" alt="" />
+                <span>Name</span>
+              </UserInfo>
+              <Editor>
+                <textarea
+                  value={editorText}
+                  onChange={(e) => setEditorText(e.target.value)}
+                  placeholder="What do you want to talk about?"
+                  autoFocus={true}
+                ></textarea>
+              </Editor>
+            </SharedContent>
+            <ShareCreation>
+              <AttachAssets>
+                <AssetButton>
+                  <img src="/images/share-image.svg" alt="" />
+                </AssetButton>
+                <AssetButton>
+                  <img src="/images/share-video.svg" alt="" />
+                </AssetButton>
+              </AttachAssets>
 
-          <ShareComment>
-            <AssetButton>
-              <img src="/images/share-comment.svg" alt="" />
-              Anyone
-            </AssetButton>
-          </ShareComment>
+              <ShareComment>
+                <AssetButton>
+                  <img src="/images/share-comment.svg" alt="" />
+                  Anyone
+                </AssetButton>
+              </ShareComment>
 
-          <PostButton>Post</PostButton>
-        </ShareCreation>
-      </Content>
-    </Container>
+              <PostButton>Post</PostButton>
+            </ShareCreation>
+          </Content>
+        </Container>
+      )}
+    </React.Fragment>
   );
 };
 
@@ -80,7 +108,8 @@ const Header = styled.div`
     width: 40px;
     min-width: auto;
     color: rgba(0, 0, 0, 0.15);
-    svg {
+    svg,
+    img {
       pointer-events: none;
     }
   }
@@ -159,5 +188,21 @@ const PostButton = styled.button`
   color: white;
   &:hover {
     background: #004182;
+  }
+`;
+
+const Editor = styled.div`
+  padding: 12px 24px;
+  textarea {
+    width: 100%;
+    min-height: 100px;
+    resize: none;
+  }
+
+  input {
+    width: 100%;
+    height: 35px;
+    margin-bottom: 20px;
+    font-size: 16px;
   }
 `;
