@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import ReactPlayer from "react-player";
 import styled from "styled-components";
 
 interface IPostModalProps {
@@ -12,6 +13,19 @@ export const PostModal: React.FC<IPostModalProps> = ({
   handleClick,
 }) => {
   const [editorText, setEditorText] = useState("");
+  const [shareImage, setShareImage] = useState<File | undefined>(undefined);
+  const [videoLink, setVideoLink] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const image = e.target.files![0];
+
+    if (image === undefined) {
+      alert(`not an image, the file is a ${typeof image}`);
+      return;
+    }
+
+    setShareImage(image);
+  };
 
   const reset = (e: React.MouseEvent<HTMLButtonElement>) => {
     setEditorText("");
@@ -41,6 +55,33 @@ export const PostModal: React.FC<IPostModalProps> = ({
                   placeholder="What do you want to talk about?"
                   autoFocus={true}
                 ></textarea>
+                <UploadImage>
+                  <input
+                    type="file"
+                    accept="image/gif, image/jpeg, image/jpg, image/png"
+                    name="image"
+                    id="file"
+                    style={{ display: "none" }}
+                    onChange={handleChange}
+                  />
+                  <p>
+                    <label htmlFor="file">Select an image to share</label>
+                  </p>
+                  {shareImage && (
+                    <img src={URL.createObjectURL(shareImage)} alt="" />
+                  )}
+                  <>
+                    <input
+                      type="text"
+                      placeholder="Please input a video link"
+                      value={videoLink}
+                      onChange={(e) => setVideoLink(e.target.value)}
+                    />
+                    {videoLink && (
+                      <ReactPlayer width={"100%"} url={videoLink} />
+                    )}
+                  </>
+                </UploadImage>
               </Editor>
             </SharedContent>
             <ShareCreation>
@@ -60,7 +101,9 @@ export const PostModal: React.FC<IPostModalProps> = ({
                 </AssetButton>
               </ShareComment>
 
-              <PostButton>Post</PostButton>
+              <PostButton disabled={!editorText ? true : false}>
+                Post
+              </PostButton>
             </ShareCreation>
           </Content>
         </Container>
@@ -185,10 +228,10 @@ const PostButton = styled.button`
   padding-left: 16px;
   padding-right: 16px;
   border-radius: 20px;
-  background: #0a66c2;
-  color: white;
+  background: ${(props) => (props.disabled ? "rgba(0,0,0,0.8)" : "#0a66c2")};
+  color: ${(props) => (props.disabled ? "rgba(1,1,1,0.2)" : "white")};
   &:hover {
-    background: #004182;
+    background: ${(props) => (props.disabled ? "rgba(0,0,0,0.08)" : "#004182")};
   }
 `;
 
@@ -205,5 +248,12 @@ const Editor = styled.div`
     height: 35px;
     margin-bottom: 20px;
     font-size: 16px;
+  }
+`;
+
+const UploadImage = styled.div`
+  text-align: center;
+  img {
+    width: 100%;
   }
 `;
