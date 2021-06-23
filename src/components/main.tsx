@@ -1,9 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
+import { connect, ConnectedProps } from "react-redux";
 import styled from "styled-components";
+import { ILoaderState } from "../reducers/articleReducer";
+import { IUserState } from "../reducers/userReducer";
 import PostModal from "./post-modal";
 
-export const Main = (props: any) => {
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+type IMainProps = PropsFromRedux;
+
+const Main: React.FC<IMainProps> = ({ user, loading }) => {
   const [showModal, setShowModal] = useState("close");
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -27,10 +34,15 @@ export const Main = (props: any) => {
   return (
     <Conatainer>
       <ShareBox>
-        Share
         <div>
-          <img src="/images/user.svg" alt="" />
-          <button onClick={handleClick}>Start a post</button>
+          {user && user.photoURL ? (
+            <img src={user.photoURL} alt="" />
+          ) : (
+            <img src="/images/user.svg" alt="" />
+          )}
+          <button onClick={handleClick} disabled={loading ? true : false}>
+            Start a post
+          </button>
         </div>
         <div>
           <button>
@@ -54,7 +66,14 @@ export const Main = (props: any) => {
           </button>
         </div>
       </ShareBox>
-      <div>
+      <Content>
+        {loading && (
+          <img
+            src="/images/spin-loader.svg"
+            alt=""
+            style={{ backgroundColor: "transparent" }}
+          />
+        )}
         <Article>
           <SharedActor>
             <a>
@@ -112,7 +131,7 @@ export const Main = (props: any) => {
             </button>
           </SocialActions>
         </Article>
-      </div>
+      </Content>
       <PostModal showModal={showModal} handleClick={handleClick} />
     </Conatainer>
   );
@@ -187,6 +206,13 @@ const ShareBox = styled(CommonCard)`
         }
       }
     }
+  }
+`;
+
+const Content = styled.div`
+  text-align: center;
+  & > img {
+    width: 30px;
   }
 `;
 
@@ -306,3 +332,17 @@ const SocialActions = styled.div`
     }
   }
 `;
+
+const mapStateToProps = (state: {
+  userState: IUserState;
+  articleState: ILoaderState;
+}) => ({
+  user: state.userState.user,
+  loading: state.articleState.loading,
+});
+
+const mapDispatchToProps = (dispatch: any) => ({});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export default connector(Main);

@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import styled from "styled-components";
 import { IUserState } from "../reducers/userReducer";
 import Leftside from "./leftside";
-import { Main } from "./main";
+import Main from "./main";
 import { Rightside } from "./rightside";
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
