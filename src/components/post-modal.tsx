@@ -20,7 +20,7 @@ interface IPostModalProps extends PropsFromRedux {
   handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-interface IPayload {
+export interface IPayload {
   image: File | undefined;
   video: string;
   user: firebase.User | null;

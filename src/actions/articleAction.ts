@@ -1,6 +1,7 @@
+import { IPayload } from "../components/post-modal";
 import db, { storage } from "../firebase";
 
-export const postArticleAPI = (payload: any) => {
+export const postArticleAPI = (payload: IPayload) => {
   return (dispatch: any) => {
     if (payload.image !== undefined) {
       const upload = storage
@@ -21,10 +22,10 @@ export const postArticleAPI = (payload: any) => {
           const downloadURL = await upload.snapshot.ref.getDownloadURL();
           db.collection("articles").add({
             actor: {
-              title: payload.user.displayName,
-              description: payload.user.email,
+              title: payload.user?.displayName,
+              description: payload.user?.email,
               date: payload.timestamp,
-              image: payload.user.photoURL,
+              image: payload.user?.photoURL,
             },
             video: payload.video,
             shareImg: downloadURL,
@@ -33,6 +34,19 @@ export const postArticleAPI = (payload: any) => {
           });
         }
       );
+    } else if (payload.video !== "") {
+      db.collection("articles").add({
+        actor: {
+          title: payload.user?.displayName,
+          description: payload.user?.email,
+          date: payload.timestamp,
+          image: payload.user?.photoURL,
+        },
+        video: payload.video,
+        shareImg: "",
+        comments: 0,
+        description: payload.description,
+      });
     }
   };
 };
