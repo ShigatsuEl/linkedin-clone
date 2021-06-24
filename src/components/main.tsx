@@ -1,7 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import styled from "styled-components";
+import { getArticlesAPI } from "../actions/articleAction";
 import { ILoaderState } from "../reducers/articleReducer";
 import { IUserState } from "../reducers/userReducer";
 import PostModal from "./post-modal";
@@ -10,8 +13,12 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 type IMainProps = PropsFromRedux;
 
-const Main: React.FC<IMainProps> = ({ user, loading }) => {
+const Main: React.FC<IMainProps> = ({ user, loading, getArticles }) => {
   const [showModal, setShowModal] = useState("close");
+
+  useEffect(() => {
+    getArticles();
+  }, []);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -97,14 +104,8 @@ const Main: React.FC<IMainProps> = ({ user, loading }) => {
           <SocialCounts>
             <li>
               <button>
-                <img
-                  src="https://static-exp1.licdn.com/sc/h/d310t2g24pvdy4pt1jkedo4yb"
-                  alt=""
-                />
-                <img
-                  src="https://static-exp1.licdn.com/sc/h/5thsbmikm6a8uov24ygwd914f"
-                  alt=""
-                />
+                <img src="/images/thumb-up.svg" alt="" />
+                <img src="/images/clap.svg" alt="" />
                 <span>75</span>
               </button>
             </li>
@@ -341,7 +342,9 @@ const mapStateToProps = (state: {
   loading: state.articleState.loading,
 });
 
-const mapDispatchToProps = (dispatch: any) => ({});
+const mapDispatchToProps = (dispatch: any) => ({
+  getArticles: () => dispatch(getArticlesAPI()),
+});
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 

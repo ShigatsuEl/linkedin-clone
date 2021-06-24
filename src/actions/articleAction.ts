@@ -73,3 +73,16 @@ export const postArticleAPI = (payload: IPayload) => {
     }
   };
 };
+
+export const getArticlesAPI = () => {
+  return (dispatch: any) => {
+    let payload;
+
+    db.collection("articles")
+      .orderBy("actor.date", "desc")
+      .onSnapshot((snapshot) => {
+        payload = snapshot.docs.map((doc) => doc.data());
+        console.log(payload);
+      });
+  };
+};
