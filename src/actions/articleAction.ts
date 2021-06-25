@@ -1,10 +1,16 @@
+import firebase from "firebase/app";
 import { IPayload } from "../components/post-modal";
 import db, { storage } from "../firebase";
-import { SET_LOADING_STATE } from "./actionType";
+import { GET_ARTICLES, SET_LOADING_STATE } from "./actionType";
 
 const setLoading = (status: boolean) => ({
   type: SET_LOADING_STATE,
   status,
+});
+
+const getArticles = (payload: firebase.firestore.DocumentData[]) => ({
+  type: GET_ARTICLES,
+  payload,
 });
 
 export const postArticleAPI = (payload: IPayload) => {
@@ -82,7 +88,7 @@ export const getArticlesAPI = () => {
       .orderBy("actor.date", "desc")
       .onSnapshot((snapshot) => {
         payload = snapshot.docs.map((doc) => doc.data());
-        console.log(payload);
+        dispatch(getArticles(payload));
       });
   };
 };

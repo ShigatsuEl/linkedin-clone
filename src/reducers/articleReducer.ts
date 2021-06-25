@@ -1,19 +1,27 @@
+import firebase from "firebase/app";
 import RootAction from "../actions";
-import { SET_LOADING_STATE } from "../actions/actionType";
+import { GET_ARTICLES, SET_LOADING_STATE } from "../actions/actionType";
 
-export interface ILoaderState {
+export interface IArticleState {
+  articles: firebase.firestore.DocumentData[];
   loading: boolean;
 }
 
 const INITIAL_STATE = {
+  articles: [],
   loading: false,
 };
 
 const articleReducer = (
-  state: ILoaderState = INITIAL_STATE,
+  state: IArticleState = INITIAL_STATE,
   action: RootAction
 ) => {
   switch (action.type) {
+    case GET_ARTICLES:
+      return {
+        ...state,
+        articles: action.payload,
+      };
     case SET_LOADING_STATE:
       return {
         ...state,
