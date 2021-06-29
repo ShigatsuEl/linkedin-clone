@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
 import { useEffect } from "react";
+import ReactPlayer from "react-player";
 import { connect, ConnectedProps } from "react-redux";
 import styled from "styled-components";
 import { getArticlesAPI } from "../actions/articleAction";
@@ -111,7 +112,12 @@ const Main: React.FC<IMainProps> = ({
                   <Description>{article.description}</Description>
                   <SharedImg>
                     <a>
-                      <img src="/images/user.svg" alt="" />
+                      {!article.shareImg && article.video && (
+                        <ReactPlayer width={"100%"} url={article.video} />
+                      )}
+                      {article.shareImg && (
+                        <img src={article.shareImg} alt="" />
+                      )}
                     </a>
                   </SharedImg>
                   <SocialCounts>
@@ -123,7 +129,11 @@ const Main: React.FC<IMainProps> = ({
                       </button>
                     </li>
                     <li>
-                      <a>2 comments</a>
+                      <a>
+                        {Number(article.comments) === 1
+                          ? `${article.comments} comment`
+                          : `${article.comments} comments`}
+                      </a>
                     </li>
                   </SocialCounts>
                   <SocialActions>
@@ -316,7 +326,8 @@ const SocialCounts = styled.ul`
   padding: 8px 0;
   border-bottom: 1px solid #e9e5df;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: flex-start;
   overflow: auto;
   line-height: 1.3;
   list-style: none;
@@ -324,7 +335,9 @@ const SocialCounts = styled.ul`
     margin-right: 5px;
     font-size: 12px;
     button {
+      border: none;
       display: flex;
+      background-color: white;
     }
   }
 `;
@@ -338,8 +351,10 @@ const SocialActions = styled.div`
   justify-content: flex-start;
   button {
     padding: 8px;
+    border: none;
     display: inline-flex;
     align-items: center;
+    background-color: white;
     color: #0a66c2;
 
     @media (max-width: 768px) {
